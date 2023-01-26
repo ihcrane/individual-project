@@ -137,7 +137,7 @@ def remove_outliers(df, num=8, k=1.5):
     for col in df:
             new_df=np.where(df[col].nunique()>num, True, False)
             if new_df:
-                if df[col].dtype == 'float' or df[col].dtype == 'int':
+                if df[col].dtype == 'float64' or df[col].dtype == 'int64':
 
                     # for each feature find the first and third quartile
                     q1, q3 = df[col].quantile([.25, .75])
