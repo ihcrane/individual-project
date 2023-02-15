@@ -10,7 +10,10 @@ This dataset is a large dataset about used cars. I will be creating a machine le
 - Deliever a report to a technical data science team
 
 ## Questions to answer
--
+- Does horsepower affect the price of the vehicle?
+- Does mileage affect price of the vehicle?
+- Do the dimensions of the vehcile affect price?
+- Does whether the car is sold by a dealer affect price?
 
 ## Intial Thoughts and Hypothesis
 I believe the main drivers behind the value of the cars is horsepower, mileage, and miles per gallon. The more horsepower a car has the higher the price of the car. The lower the mileage on the vehicle the higher the price of the vehicle. The higher the miles per gallon the lower the price of the car.
