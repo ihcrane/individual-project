@@ -104,7 +104,9 @@ def ttest_samp(df, col):
     sold_dealer = df[df['dealer']=='True']['price']
 
     t, p = stats.ttest_1samp(sold_dealer, df['price'].mean())
-
+    
+    alpha = .05
+    
     if p/2 > alpha:
         print("We fail to reject null")
     elif t < 0:
@@ -174,6 +176,8 @@ def linear_reg(X_train, y_train, preds):
     
     lm_rmse = rmse(preds, 'lm_preds')
     
+    print(f'RMSE: {lm_rmse}')
+    
     return preds, lm_rmse
 
 
@@ -190,6 +194,8 @@ def lasso(X_train, y_train, preds):
     
     lasso_rmse = rmse(preds, 'lasso_preds')
     
+    print(f'RMSE: {lasso_rmse}')
+        
     return preds, lasso_rmse
 
 
@@ -209,6 +215,8 @@ def lm_poly(X_train, y_train, preds):
     preds['poly_preds'] = lmtwo.predict(X_polynomial)
     
     poly_rmse = rmse(preds, 'poly_preds')
+    
+    print(f'RMSE: {poly_rmse}')
     
     return preds, poly_rmse
 
@@ -231,6 +239,8 @@ def lasso_poly(X_train, y_train, preds):
     
     lassopoly_rmse = rmse(preds, 'lasso_poly')
     
+    print(f'RMSE: {lassopoly_rmse}')
+    
     return preds, lassopoly_rmse
 
 
@@ -247,6 +257,8 @@ def xgb_model(X_train, y_train, preds):
     preds['xgb'] = xgb.predict(X_train)
     
     xgb_rmse = rmse(preds, 'xgb')
+    
+    print(f'RMSE: {xgb_rmse}')
     
     return preds, xgb_rmse
 
@@ -283,6 +295,8 @@ def val_tests(X_train, y_train, X_val, y_val):
     
     pf = PolynomialFeatures(degree=2)
     pf.fit(X_train, y_train)
+    
+    X_polynomial = pf.transform(X_train)
     X_val_polynomial = pf.transform(X_val)
     
     lmtwo = LinearRegression()
@@ -329,15 +343,15 @@ def val_rmse(val_preds):
     val_rmse_df = pd.DataFrame({'model':['baseline', 'lasso','poly', 'linear', 'xgb'],
               'rmse':[baseline_rmse, lasso_rmse, poly_rmse, linear_rmse, xgb_rmse]})
     
-    return val_rmse
+    return val_rmse_df
 
 
 # In[24]:
 
 
-def val_plot(val_rmse):
+def val_plot(val_rmse_df):
     fig, ax = plt.subplots(figsize=(10,7))
-    bplot = sns.barplot(x='model',y='rmse', data=val_rmse.sort_values('rmse'))
+    bplot = sns.barplot(x='model',y='rmse', data=val_rmse_df.sort_values('rmse'))
     plt.ylabel('RMSE')
     plt.xlabel('Model')
     plt.title('RMSE for Each Tested Model')

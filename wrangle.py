@@ -180,7 +180,7 @@ def col_conversion(df):
         (df['seller_rating']!='CVT') & (df['seller_rating']!='Dual Clutch')]
     
     num_cols = ['daysonmarket','displ','hwy_mpg',
-            'horsepower','seats','owners','price','year',
+            'horsepower','seats','owners','price',
             'back_legroom','city_mpg','front_legroom','tank_size',
             'length','mileage','seller_rating','wheelbase','width']
     
