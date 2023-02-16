@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# In[14]:
+# In[1]:
 
 
 import pandas as pd
@@ -19,7 +19,7 @@ from scipy import stats
 pd.set_option('display.max_columns', None)
 
 
-# In[3]:
+# In[2]:
 
 
 def missing_values(df):
@@ -37,7 +37,7 @@ def missing_values(df):
     return missing_df
 
 
-# In[4]:
+# In[3]:
 
 
 def handle_missing_values(df, prop_required_col, prop_required_row):
@@ -57,7 +57,7 @@ def handle_missing_values(df, prop_required_col, prop_required_row):
     return df
 
 
-# In[63]:
+# In[4]:
 
 
 def drop_rename_cols(df):
@@ -74,24 +74,27 @@ def drop_rename_cols(df):
                  'main_picture_url','major_options','franchise_make',
                  'model_name','power','salvage','listing_color', 
                  'savings_amount','sp_id', 'sp_name','theft_title', 'engine_type', 
-                 'frame_damaged','exterior_color','interior_color']
+                 'frame_damaged','exterior_color','interior_color',
+                 'body_type','city','engine_cylinders','fuel_type',
+                 'has_accidents','is_new','listed_date','make_name',
+                 'transmission','wheel_system','year', 'body_type']
     
     df.drop(columns=drop_cols, inplace=True)
     
     # list of columns to be renamed
-    cols_rename = {'city_fuel_economy':'city_mpg','engine_cylinders':'cyl',
+    cols_rename = {'city_fuel_economy':'city_mpg',
                    'engine_displacement':'displ','franchise_dealer':'dealer',
-                   'fuel_tank_volume':'tank_size','has_accidents':'accidents',
-                   'highway_fuel_economy':'hwy_mpg','is_new':'new','make_name':'model',
+                   'fuel_tank_volume':'tank_size',
+                   'highway_fuel_economy':'hwy_mpg',
                    'maximum_seating':'seats','owner_count':'owners',
-                   'transmission':'tran','wheel_system':'drive_type'}
+                   }
     
     df.rename(columns=cols_rename, inplace=True)
     
     return df
 
 
-# In[6]:
+# In[5]:
 
 
 def formatting_cols(df):
@@ -106,19 +109,11 @@ def formatting_cols(df):
     df['back_legroom'] = df['back_legroom'].str.split(' ',expand=True).drop(columns=[1])
     df['back_legroom'].astype('float64')
     
-    # formatting body type for easier readibility
-    df['body_type'] = df['body_type'].map({'SUV / Crossover':'SUV', 'Sedan':'Sedan',
-                                           'Pickup Truck':'Pickup','Coupe':'Coupe',
-                                           'Minivan':'Minivan', 'Wagon':'Wagon','Van':'Van',
-                                           'Convertible':'Convertible'})
     
     # dropping the word 'seats' from the data and converting to int
     df = df[df['seats'] != '--']
     df['seats'] = df['seats'].str.split(' ', expand=True).drop(columns=[1])
     df['seats'].astype('float64')
-    
-    # dropping unnecessary words and keeping on the the number and style of cylinders
-    df['cyl'] = df['cyl'].str.split(' ',expand=True).drop(columns=[1,2,3])
     
     # dropping the 'in' and converting to float
     df = df[df['wheelbase'] != '--']
@@ -148,7 +143,7 @@ def formatting_cols(df):
     return df
 
 
-# In[ ]:
+# In[6]:
 
 
 with pd.read_csv("used_cars_data.csv", chunksize=5000) as reader:
@@ -171,7 +166,7 @@ with pd.read_csv("used_cars_data.csv", chunksize=5000) as reader:
         
 
 
-# In[54]:
+# In[7]:
 
 
 def col_conversion(df):
@@ -194,7 +189,7 @@ def col_conversion(df):
     return df
 
 
-# In[64]:
+# In[8]:
 
 
 def wrangle_cars():
@@ -214,12 +209,6 @@ def wrangle_cars():
     df = reduce_mem_usage(df)
     
     return df
-
-
-# In[ ]:
-
-
-
 
 
 # In[ ]:
